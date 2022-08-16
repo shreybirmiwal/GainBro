@@ -1,20 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ThemeProvider } from "styled-components/native";
+import {theme} from "./Elements/theme"
+import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
+import { PictureScreen } from './PictureUpload/screens/picture.screen';
+import { PictureContextProvider } from './services/pictures.context';
 
 export default function App() {
+  
+  const [latoLoaded] = useLato({
+    Lato_400Regular,
+  });
+
+  if (!latoLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider theme={theme}>
+      <PictureContextProvider>
+        <PictureScreen/>
+      </PictureContextProvider>
+    </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
